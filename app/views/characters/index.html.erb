@@ -1,0 +1,4 @@
+<% @characters.each do |character| %>
+  <p><%= link_to(character[:name],
+        :controller => 'characters', :action => 'show', :id => character[:id]) %></p>
+<% end %>
