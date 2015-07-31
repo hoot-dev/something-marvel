@@ -8,7 +8,11 @@ class CharactersController < ApplicationController
   end
 
   def index
-    response = client.characters
+    if params
+      response = client.characters(params)
+    else
+      response = client.characters
+    end
     @characters = response.data[:results]
   end
 

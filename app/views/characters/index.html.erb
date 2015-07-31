@@ -1,4 +1,35 @@
-<% @characters.each do |character| %>
-  <p><%= link_to(character[:name],
-        :controller => 'characters', :action => 'show', :id => character[:id]) %></p>
-<% end %>
+<%= link_to 'Prev', {controller: 'characters',
+             action:'index'}, class: 'btn btn-primary' %>
+<%= link_to 'Next', {controller: 'characters',
+            action: 'index'}, class: 'btn btn-primary' %>
+<table id='characters' class='table table-striped'>
+  <thead>
+    <tr>
+        <th>Character</th>
+        <th>Detail</th>
+        <th>Wiki</th>
+        <th>Comics</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @characters.each do |character| %>
+      <tr>
+          <td><%= link_to(character[:name], :controller => 'characters',
+            :action => 'show', :id => character[:id]) %></td>
+          <% character[:urls].each_with_index do |url, index| %>
+            <% if (index == 0 && url[:type] == 'detail') ||
+                  (index == 1 && url[:type] == 'wiki') ||
+                  (index == 2 && url[:type] == 'comiclink') %>
+              <td><%= link_to(url[:type].to_s.capitalize, url[:url], target: '_blank') %></td>
+            <% elsif (index == 1 && url[:type] == 'comiclink') %>
+              <td>None</td>
+              <td><%= link_to(url[:type].to_s.capitalize, url[:url], target: '_blank') %></td>
+            <% else %>
+              <td></td>
+            <% end %>
+          <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
